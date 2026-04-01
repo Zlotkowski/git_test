@@ -55,3 +55,31 @@ function addToCart(productId) {
 }
 
 renderProducts();
+
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    cartCount++;
+    cartCountElement.textContent = cartCount;
+    console.log("Dodano produkt:", productId);
+
+    // nowa funkcja - alert z nazwą i ceną produktu
+    alert(`Dodano do koszyka: ${product.name} - ${product.price.toLocaleString('pl-PL')} zł`);
+}
+
+function renderProducts() {
+    productsContainer.innerHTML = "";
+
+    products.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+
+        card.innerHTML = `
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <div class="price">${product.price.toLocaleString('pl-PL')} zł</div>
+            <button onclick="addToCart(${product.id})">Dodaj do koszyka</button>
+        `;
+
+        productsContainer.appendChild(card);
+    });
+}

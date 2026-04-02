@@ -26,9 +26,12 @@ const products = [
 ];
 
 let cartCount = 0;
+let carttotal = 0;
+
 
 const productsContainer = document.getElementById("products");
 const cartCountElement = document.getElementById("cart-count");
+const cartTotalElement = document.getElementById("cart-total");
 
 function renderProducts() {
     productsContainer.innerHTML = "";
@@ -59,7 +62,9 @@ renderProducts();
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     cartCount++;
+    carttotal += product.price;
     cartCountElement.textContent = cartCount;
+    cartTotalElement.textContent = carttotal.toLocaleString('pl-PL');
     console.log("Dodano produkt:", productId);
 
     // nowa funkcja - alert z nazwą i ceną produktu

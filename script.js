@@ -27,7 +27,7 @@ const products = [
 
 let cartCount = 0;
 let carttotal = 0;
-
+let cartItems = [];
 
 const productsContainer = document.getElementById("products");
 const cartCountElement = document.getElementById("cart-count");
@@ -63,6 +63,7 @@ function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     cartCount++;
     carttotal += product.price;
+    cartItems.push(product);
     cartCountElement.textContent = cartCount;
     cartTotalElement.textContent = carttotal.toLocaleString('pl-PL');
     console.log("Dodano produkt:", productId);
@@ -70,6 +71,23 @@ function addToCart(productId) {
     // nowa funkcja - alert z nazwą i ceną produktu
     alert(`Dodano do koszyka: ${product.name} - ${product.price.toLocaleString('pl-PL')} zł`);
 }
+function cartPreview() {
+    if (cartItems.length === 0) {
+        alert("Twój koszyk jest pusty.");
+        return;
+    }
+
+    let message = "Podgląd koszyka:\n\n";
+    cartItems.forEach(item => {
+        message += `${item.name} - ${item.price.toLocaleString('pl-PL')} zł\n`;
+    });
+    message += `\nŁącznie: ${carttotal.toLocaleString('pl-PL')} zł`;
+
+    alert(message);
+}
+cartPreviewButton.addEventListener("click", cartPreview);
+
+
 
 function renderProducts() {
     productsContainer.innerHTML = "";

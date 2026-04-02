@@ -88,3 +88,29 @@ function renderProducts() {
         productsContainer.appendChild(card);
     });
 }
+
+const sliderContainer = document.getElementById("slider");
+
+const sliderImages = [
+  "https://images.unsplash.com/photo-1587829741301-dc798b83add3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1593642634367-d91a135587b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+];
+
+sliderImages.forEach(src => {
+  const img = document.createElement("img");
+  img.src = src;
+  sliderContainer.appendChild(img);
+});
+
+let currentSlide = 0;
+
+function showNextSlide() {
+  currentSlide++;
+  if (currentSlide >= sliderImages.length) currentSlide = 0;
+  sliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
+
+setInterval(showNextSlide, 3000);

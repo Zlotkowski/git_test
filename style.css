@@ -61,3 +61,21 @@ button {
 button:hover {
     background: #005fd1;
 }
+
+.promo {
+    background: #ffeb3b;
+    color: #222;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 8px;
+    margin: 20px;
+}
+
+button {
+    transition: 0.3s;
+}
+
+button:active {
+    transform: scale(0.95);
+}

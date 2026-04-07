@@ -159,9 +159,9 @@ button:active {
     padding: var(--space-md);
     text-align: center;
     font-size: 14px;
-    background: var(--color-dark);
-    color: white;
 }
+
+
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
@@ -178,12 +178,4 @@ button:active {
     .slider-container {
         margin: var(--space-md);
     }
-}
-.remove-btn {   
-    background: transparent;
-    color: var(--color-primary);
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 0;
 }

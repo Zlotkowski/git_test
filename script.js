@@ -25,84 +25,161 @@ const products = [
     }
 ];
 
-let cartCount = 0;
-let carttotal = 0;
-let cartItems = [];
+const cart = {
+    items: [],
+    count: 0,
+    total: 0
+};
 
-const productsContainer = document.getElementById("products");
-const cartCountElement = document.getElementById("cart-count");
-const cartTotalElement = document.getElementById("cart-total");
+const ui = {
+    products: document.getElementById("products"),
+    cartCount: document.getElementById("cart-count"),
+    cartTotal: document.getElementById("cart-total"),
+    cartItems: document.getElementById("cart-items"),
+    slider: document.getElementById("slider"),
+    clearCartBtn: document.getElementById("clear-cart-btn"),
+    cartPreviewBtn: document.getElementById("cart-preview-btn")
+};
+
+const sliderImages = [
+    "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1593642634367-d91a135587b5?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80"
+];
+
+let currentSlide = 0;
+let sliderInterval = null;
+
+function formatPrice(price) {
+    return `${price.toLocaleString("pl-PL")} zł`;
+}
+
+function updateCartSummary() {
+    ui.cartCount.textContent = cart.count;
+    ui.cartTotal.textContent = cart.total.toLocaleString("pl-PL");
+}
 
 function renderProducts() {
-    productsContainer.innerHTML = "";
+    ui.products.innerHTML = "";
 
     products.forEach(product => {
-        const card = document.createElement("div");
-        card.className = "product-card";
+        const card = createProductCard(product);
+        ui.products.appendChild(card);
+    });
+}
 
-        card.innerHTML = `
-            <h3>${product.name}</h3>
-            <p>${product.description}</p>
-            <div class="price">${product.price} zł</div>
-            <button onclick="addToCart(${product.id})">Dodaj do koszyka</button>
-        `;
+function createProductCard(product) {
+    const card = document.createElement("div");
+    card.className = "product-card";
 
-        productsContainer.appendChild(card);
+    const title = document.createElement("h3");
+    title.textContent = product.name;
+
+    const description = document.createElement("p");
+    description.textContent = product.description;
+
+    const price = document.createElement("div");
+    price.className = "price";
+    price.textContent = formatPrice(product.price);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "Dodaj do koszyka";
+    button.addEventListener("click", () => addToCart(product.id));
+
+    card.append(title, description, price, button);
+
+    return card;
+}
+
+function renderCartItems() {
+    ui.cartItems.innerHTML = "";
+
+    if (cart.items.length === 0) {
+        const li = document.createElement("li");
+        li.textContent = "Koszyk jest pusty";
+        ui.cartItems.appendChild(li);
+        return;
+    }
+
+    cart.items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} - ${formatPrice(item.price)}`;
+        ui.cartItems.appendChild(li);
     });
 }
 
 function addToCart(productId) {
-    cartCount++;
-    cartCountElement.textContent = cartCount;
-    console.log("Dodano produkt:", productId);
-}
-
-renderProducts();
-
-function addToCart(productId) {
     const product = products.find(p => p.id === productId);
-    cartCount++;
-    carttotal += product.price;
-    cartItems.push(product);
-    cartCountElement.textContent = cartCount;
-    cartTotalElement.textContent = carttotal.toLocaleString('pl-PL');
-    console.log("Dodano produkt:", productId);
+    if (!product) return;
 
-    // nowa funkcja - alert z nazwą i ceną produktu
-    alert(`Dodano do koszyka: ${product.name} - ${product.price.toLocaleString('pl-PL')} zł`);
+    cart.items.push(product);
+    cart.count++;
+    cart.total += product.price;
+
+    updateCartSummary();
+    renderCartItems();
+
+    // 🔥 z feature/cart-preview
+    alert(`Dodano do koszyka: ${product.name} - ${formatPrice(product.price)}`);
 }
+
 function cartPreview() {
-    if (cartItems.length === 0) {
+    if (cart.items.length === 0) {
         alert("Twój koszyk jest pusty.");
         return;
     }
 
     let message = "Podgląd koszyka:\n\n";
-    cartItems.forEach(item => {
-        message += `${item.name} - ${item.price.toLocaleString('pl-PL')} zł\n`;
+
+    cart.items.forEach(item => {
+        message += `${item.name} - ${formatPrice(item.price)}\n`;
     });
-    message += `\nŁącznie: ${carttotal.toLocaleString('pl-PL')} zł`;
+
+    message += `\nŁącznie: ${formatPrice(cart.total)}`;
 
     alert(message);
 }
-cartPreviewButton.addEventListener("click", cartPreview);
 
+function clearCart() {
+    cart.items = [];
+    cart.count = 0;
+    cart.total = 0;
 
-
-function renderProducts() {
-    productsContainer.innerHTML = "";
-
-    products.forEach(product => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-
-        card.innerHTML = `
-            <h3>${product.name}</h3>
-            <p>${product.description}</p>
-            <div class="price">${product.price.toLocaleString('pl-PL')} zł</div>
-            <button onclick="addToCart(${product.id})">Dodaj do koszyka</button>
-        `;
-
-        productsContainer.appendChild(card);
-    });
+    updateCartSummary();
+    renderCartItems();
 }
+
+function initSlider() {
+    ui.slider.innerHTML = "";
+
+    sliderImages.forEach(src => {
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "Baner promocyjny sklepu";
+        ui.slider.appendChild(img);
+    });
+
+    if (sliderInterval) clearInterval(sliderInterval);
+    sliderInterval = setInterval(showNextSlide, 3000);
+}
+
+function showNextSlide() {
+    currentSlide = (currentSlide + 1) % sliderImages.length;
+    ui.slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
+
+function bindEvents() {
+    ui.clearCartBtn?.addEventListener("click", clearCart);
+    ui.cartPreviewBtn?.addEventListener("click", cartPreview);
+}
+
+function init() {
+    renderProducts();
+    renderCartItems();
+    updateCartSummary();
+    initSlider();
+    bindEvents();
+}
+
+document.addEventListener("DOMContentLoaded", init);

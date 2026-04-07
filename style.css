@@ -159,9 +159,9 @@ button:active {
     padding: var(--space-md);
     text-align: center;
     font-size: 14px;
-    background: var(--color-dark);
-    color: white;
 }
+
+
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {

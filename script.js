@@ -37,7 +37,8 @@ const ui = {
     cartTotal: document.getElementById("cart-total"),
     cartItems: document.getElementById("cart-items"),
     slider: document.getElementById("slider"),
-    clearCartBtn: document.getElementById("clear-cart-btn")
+    clearCartBtn: document.getElementById("clear-cart-btn"),
+    cartPreviewBtn: document.getElementById("cart-preview-btn")
 };
 
 const sliderImages = [
@@ -109,15 +110,35 @@ function renderCartItems() {
 }
 
 function addToCart(productId) {
-    const product = products.find(product => product.id === productId);
+    const product = products.find(p => p.id === productId);
     if (!product) return;
 
     cart.items.push(product);
-    cart.count += 1;
+    cart.count++;
     cart.total += product.price;
 
     updateCartSummary();
     renderCartItems();
+
+    // 🔥 z feature/cart-preview
+    alert(`Dodano do koszyka: ${product.name} - ${formatPrice(product.price)}`);
+}
+
+function cartPreview() {
+    if (cart.items.length === 0) {
+        alert("Twój koszyk jest pusty.");
+        return;
+    }
+
+    let message = "Podgląd koszyka:\n\n";
+
+    cart.items.forEach(item => {
+        message += `${item.name} - ${formatPrice(item.price)}\n`;
+    });
+
+    message += `\nŁącznie: ${formatPrice(cart.total)}`;
+
+    alert(message);
 }
 
 function clearCart() {
@@ -150,6 +171,7 @@ function showNextSlide() {
 
 function bindEvents() {
     ui.clearCartBtn?.addEventListener("click", clearCart);
+    ui.cartPreviewBtn?.addEventListener("click", cartPreview);
 }
 
 function init() {

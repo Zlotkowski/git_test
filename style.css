@@ -179,3 +179,11 @@ button:active {
         margin: var(--space-md);
     }
 }
+.remove-btn {   
+    background: transparent;
+    color: var(--color-primary);
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+}

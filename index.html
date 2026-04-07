@@ -2,36 +2,50 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Prosty Sklep</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Prosty sklep internetowy z elektroniką" />
+    <title>Mój Prosty Sklep</title>
 
-    <!-- import CSS -->
     <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
     <header class="header">
-        <h1>Mój Prosty Sklep</h1>
-        <div class="cart">
-            🛒 Koszyk: <span id="cart-count">0</span>
-            💰 Suma: <span id="cart-total">0</span> zł
-        </div>
+        <h1 class="logo">Mój Prosty Sklep</h1>
+
+        <section class="cart-summary" aria-label="Podsumowanie koszyka">
+            <p>🛒 Koszyk: <span id="cart-count">0</span></p>
+            <p>💰 Suma: <span id="cart-total">0</span> zł</p>
+        </section>
     </header>
 
     <main>
-        <section class="promo">
+        <section class="promo" aria-label="Promocja tygodnia">
             🎉 Promocja tygodnia: wszystkie myszki -10%!
         </section>
-        <section id="products" class="products"></section>
-        <section class="slider-container">
+
+        <section
+            id="products"
+            class="products"
+            aria-label="Lista produktów"
+        ></section>
+
+        <section class="slider-container" aria-label="Galeria promocyjna">
             <div id="slider" class="slider"></div>
+        </section>
+
+        <section class="cart-preview" aria-labelledby="cart-title">
+            <h2 id="cart-title">🛒 Zawartość koszyka</h2>
+            <ul id="cart-items"></ul>
+            <button id="clear-cart-btn" type="button">
+                Wyczyść koszyk
+            </button>
         </section>
     </main>
 
-    <!-- import JS -->
-    <script src="./script.js"></script>
-
     <footer class="footer">
-        © 2026 Mój Prosty Sklep - Stopka testowa v2
+        <p>© 2026 Mój Prosty Sklep - Stopka testowa v2</p>
     </footer>
+
+    <script src="./script.js"></script>
 </body>
 </html>

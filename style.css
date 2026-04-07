@@ -1,44 +1,79 @@
+:root {
+    --color-bg: #f5f5f5;
+    --color-surface: #ffffff;
+    --color-text: #222222;
+    --color-primary: #0078ff;
+    --color-primary-hover: #005fd1;
+    --color-accent: #ffeb3b;
+    --color-success: #1d7a1d;
+    --color-border: #dddddd;
+    --color-dark: #222222;
+
+    --radius-md: 10px;
+    --radius-sm: 6px;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+    --space-sm: 10px;
+    --space-md: 20px;
+    --space-lg: 30px;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
 }
 
 body {
-    background: #f5f5f5;
-    color: #222;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: Arial, sans-serif;
 }
 
 main {
     flex: 1;
 }
 
+/* ===== HEADER ===== */
 .header {
-    background: #222;
-    color: white;
-    padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: var(--space-md);
+    background: var(--color-dark);
+    color: white;
 }
 
+/* ===== PROMO ===== */
+.promo {
+    margin: var(--space-md);
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    background: var(--color-accent);
+    color: var(--color-text);
+    border-radius: var(--radius-md);
+}
+
+/* ===== PRODUCTS ===== */
 .products {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    padding: 30px;
+    gap: var(--space-md);
+    padding: var(--space-lg);
 }
 
 .product-card {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transition: 0.2s;
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease;
 }
 
 .product-card:hover {
@@ -46,71 +81,101 @@ main {
 }
 
 .product-card h3 {
-    margin-bottom: 10px;
+    margin-bottom: var(--space-sm);
 }
 
 .price {
+    margin: var(--space-sm) 0;
     font-size: 20px;
     font-weight: bold;
-    color: #1d7a1d;
-    margin: 10px 0;
+    color: var(--color-success);
 }
 
+/* ===== BUTTON ===== */
 button {
-    background: #0078ff;
-    color: white;
-    border: none;
     padding: 10px 14px;
-    border-radius: 6px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    color: white;
     cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-    background: #005fd1;
-}
-
-.promo {
-    background: #ffeb3b;
-    color: #222;
-    padding: 15px;
-    text-align: center;
-    font-weight: bold;
-    border-radius: 8px;
-    margin: 20px;
-}
-
-button {
-    transition: 0.3s;
+    background: var(--color-primary-hover);
 }
 
 button:active {
     transform: scale(0.95);
 }
 
+/* ===== SLIDER ===== */
 .slider-container {
-  width: 100%;
-  max-width: 800px;
-  margin: 20px auto;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 800px;
+    margin: var(--space-md) auto;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
 }
 
 .slider {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
 }
 
 .slider img {
-  width: 100%;
-  flex-shrink: 0;
+    width: 100%;
+    flex-shrink: 0;
 }
 
+/* ===== CART ===== */
+.cart-preview {
+    margin: var(--space-md);
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.cart-preview h2 {
+    margin-bottom: 15px;
+}
+
+#cart-items {
+    list-style: none;
+    margin-bottom: var(--space-md);
+}
+
+#cart-items li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* ===== FOOTER ===== */
 .footer {
-    background: #222;
-    color: white;
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
     text-align: center;
-    padding: 20px;
-    margin-top: 30px;
     font-size: 14px;
+    background: var(--color-dark);
+    color: white;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+    .header {
+        gap: 10px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .products {
+        padding: var(--space-md);
+    }
+
+    .slider-container {
+        margin: var(--space-md);
+    }
 }

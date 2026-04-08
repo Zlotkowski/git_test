@@ -126,6 +126,7 @@ function removeFromCart(index) {
     cart.count -= 1;
     cart.total -= item.price;
 
+    saveCartToStorage();
     updateCartSummary();
     renderCartItems();
 }
@@ -167,6 +168,7 @@ function clearCart() {
     cart.count = 0;
     cart.total = 0;
 
+    saveCartToStorage();
     updateCartSummary();
     renderCartItems();
 }
@@ -195,7 +197,39 @@ function bindEvents() {
     ui.cartPreviewBtn?.addEventListener("click", cartPreview);
 }
 
+function saveCartToStorage() {
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem("cart");
+
+    if (!savedCart) return;
+
+    const parsedCart = JSON.parse(savedCart);
+
+    cart.items = parsedCart.items || [];
+    cart.count = parsedCart.count || 0;
+    cart.total = parsedCart.total || 0;
+}
+
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    cart.items.push(product);
+    cart.count++;
+    cart.total += product.price;
+
+    saveCartToStorage();
+    updateCartSummary();
+    renderCartItems();
+
+    alert(`Dodano do koszyka: ${product.name} - ${formatPrice(product.price)}`);
+}
+
 function init() {
+    loadCartFromStorage();
     renderProducts();
     renderCartItems();
     updateCartSummary();
